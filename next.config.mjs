@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  experimental: {
+    typedRoutes: true,
+  },
+  env: {
+    ADMIN_SECRET: process.env.ADMIN_SECRET, 
+  },
+}
 
-export default nextConfig;
+export default nextConfig
