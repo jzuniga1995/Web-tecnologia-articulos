@@ -1,3 +1,6 @@
+'use client'
+
+
 import ClientOnly from '@/app/components/ClientOnly'
 import CrearArticulo from '@/app/components/CrearArticulo'
 
