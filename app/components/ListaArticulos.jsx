@@ -38,7 +38,7 @@ export default function ListaArticulos() {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-20 text-white">
-      <h1 className="text-4xl font-extrabold mb-14 text-center">📰 Artículos en Español</h1>
+      <h1 className="text-4xl font-extrabold mb-14 text-center">  Lo más reciente en tecnología e innovación</h1>
 
       {loading ? (
         <p className="text-center text-zinc-400">Cargando artículos...</p>

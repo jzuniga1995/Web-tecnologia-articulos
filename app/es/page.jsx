@@ -1,8 +1,8 @@
 import HomeEs from './HomeEs'
 
 export const metadata = {
-  title: 'Inicio | Neurobity',
-  description: 'Descubre los artículos más destacados sobre tecnología, IA y productividad.',
+  title: 'Neurobity | Tecnología, IA y Creatividad',
+  description: 'Inspirate con ideas, herramientas y artículos sobre inteligencia artificial, desarrollo y productividad.',
   alternates: {
     canonical: 'https://neurobity.com/es',
   },
