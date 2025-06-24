@@ -59,13 +59,13 @@ export default function EditarArticuloPage() {
     try {
       const { fecha, fecha_actualizacion, ...resto } = articulo
 
-      const res = await fetch('/api/articulos', {
+      const res = await fetch(`/api/articulos/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...resto, id: Number(id) }),
+        body: JSON.stringify({ ...resto }),
       })
 
       if (res.ok) {

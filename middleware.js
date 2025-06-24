@@ -28,29 +28,34 @@ export function middleware(request) {
 
   // ✅ Permitir /api/articulos solo si es GET
   if (pathname === '/api/articulos') {
-    if (method === 'GET') {
-      return NextResponse.next()
-    }
+    if (method === 'GET') return NextResponse.next()
 
-    // Si es POST, requerimos token por Header
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
-    const secret = process.env.ADMIN_SECRET 
+    const secret = process.env.ADMIN_SECRET
 
-    if (token === secret) {
-      return NextResponse.next()
-    }
+    if (token === secret) return NextResponse.next()
 
     return new NextResponse('No autorizado para escribir artículos', { status: 401 })
+  }
+
+  // ✅ Permitir /api/articulos/:id si es GET
+  if (pathname.startsWith('/api/articulos/')) {
+    if (method === 'GET') return NextResponse.next()
+
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    const secret = process.env.ADMIN_SECRET
+
+    if (token === secret) return NextResponse.next()
+
+    return new NextResponse('No autorizado para modificar artículos', { status: 401 })
   }
 
   // ✅ Proteger ruta /admin con token por query param
   if (pathname.startsWith('/admin')) {
     const token = searchParams.get('token')
-    const secret = process.env.ADMIN_SECRET 
+    const secret = process.env.ADMIN_SECRET
 
-    if (token === secret) {
-      return NextResponse.next()
-    }
+    if (token === secret) return NextResponse.next()
 
     return new NextResponse('No autorizado para entrar a admin', { status: 401 })
   }
