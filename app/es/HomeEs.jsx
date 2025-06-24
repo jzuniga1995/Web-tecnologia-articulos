@@ -6,6 +6,22 @@ import { useEffect, useState } from 'react'
 import SobreNosotros from './componentes/SobreNosotros'
 import Contacto from './componentes/Contacto'
 
+function limpiarMarkdown(texto) {
+  return texto
+    .replace(/#+\s?/g, '') // títulos ##
+    .replace(/\*\*(.*?)\*\*/g, '$1') // negritas **
+    .replace(/\*(.*?)\*/g, '$1') // cursiva *
+    .replace(/`(.*?)`/g, '$1') // código en línea
+    .replace(/!\[.*?\]\(.*?\)/g, '') // imágenes
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1') // links
+    .replace(/[-*_]{3,}/g, '') // separadores
+    .replace(/\n+/g, ' ') // saltos de línea
+    .trim()
+}
+
+
+
+
 export default function HomeEs() {
   const [articulos, setArticulos] = useState([])
   const [loading, setLoading] = useState(true)
@@ -83,9 +99,10 @@ export default function HomeEs() {
                     <h2 className="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors duration-300">
                       {titulo}
                     </h2>
-                    <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
-                      {contenido.replace(/<[^>]+>/g, '').slice(0, 120)}...
-                    </p>
+                <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
+  {limpiarMarkdown(contenido).slice(0, 120)}...
+</p>
+
                     <span className="inline-block mt-4 text-sm font-medium text-cyan-500 group-hover:underline transition-all duration-300">
                       Leer más →
                     </span>
