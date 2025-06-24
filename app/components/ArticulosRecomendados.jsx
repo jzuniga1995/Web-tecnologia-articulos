@@ -7,19 +7,15 @@ import { useEffect, useState } from 'react'
 export default function ArticulosRecomendados() {
   const [articulos, setArticulos] = useState([])
 
-  useEffect(() => {
-    const fetchArticulos = async () => {
-      const res = await fetch('/api/articulos')
-      const data = await res.json()
-      const recientes = data
-        .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-        .slice(0, 6)
+useEffect(() => {
+  const fetchArticulos = async () => {
+    const res = await fetch('/api/articulos?pagina=1&limite=6')
+    const data = await res.json()
+    setArticulos(data.articulos)
+  }
 
-      setArticulos(recientes)
-    }
-
-    fetchArticulos()
-  }, [])
+  fetchArticulos()
+}, [])
 
   return (
     <section className="mt-20">
