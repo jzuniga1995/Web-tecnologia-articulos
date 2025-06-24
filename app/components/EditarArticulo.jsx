@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
 
@@ -14,12 +13,14 @@ export default function EditarArticuloPage() {
   const [mensaje, setMensaje] = useState(null)
   const [token, setToken] = useState('')
 
-  const searchParams = useSearchParams()
-
+  // ✅ Usar window.location para evitar errores de prerender
   useEffect(() => {
-    const t = searchParams.get('token')
-    if (t) setToken(t)
-  }, [searchParams])
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href)
+      const t = url.searchParams.get('token')
+      if (t) setToken(t)
+    }
+  }, [])
 
   const buscarArticulo = async () => {
     setMensaje(null)
@@ -95,7 +96,6 @@ export default function EditarArticuloPage() {
 
       {articulo && (
         <form onSubmit={actualizarArticulo} className="space-y-6">
-          {/* Título y slug */}
           <div className="grid md:grid-cols-2 gap-4">
             <input
               type="text"
@@ -113,7 +113,6 @@ export default function EditarArticuloPage() {
             />
           </div>
 
-          {/* Idioma e imagen */}
           <div className="grid md:grid-cols-2 gap-4">
             <select
               value={articulo.idioma}
@@ -132,7 +131,6 @@ export default function EditarArticuloPage() {
             />
           </div>
 
-          {/* Editor + Previsualización */}
           <div className="grid md:grid-cols-2 gap-6">
             <div className="w-full" data-color-mode="dark">
               <label className="block mb-2 text-sm font-semibold">✍️ Editar contenido (Markdown):</label>
