@@ -111,7 +111,8 @@ const ArticuloPage = async ({ params: { slug } }) => {
       
       </div>
 
-            <ArticulosRecomendados slugActual={params.slug} />
+           <ArticulosRecomendados slugActual={slug} />
+
 
     </article>
   )
