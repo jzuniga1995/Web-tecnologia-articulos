@@ -9,9 +9,28 @@ const validarToken = (req) => {
   return token === process.env.ADMIN_SECRET
 }
 
-export async function GET() {
-  const data = await db.select().from(articulos)
-  return NextResponse.json(data)
+export async function GET(req) {
+  const { searchParams } = new URL(req.url)
+  const pagina = parseInt(searchParams.get('pagina') || '1', 10)
+  const porPagina = parseInt(searchParams.get('limite') || '20', 10)
+
+  const offset = (pagina - 1) * porPagina
+
+  // Consulta paginada
+  const resultados = await db
+    .select()
+    .from(articulos)
+    .orderBy(desc(articulos.fecha))
+    .limit(porPagina)
+    .offset(offset)
+
+  // Total de artículos para calcular cuántas páginas hay (solo para frontend)
+  const total = await db.select().from(articulos)
+
+  return NextResponse.json({
+    articulos: resultados,
+    total: total.length, // o usar COUNT si querés performance real
+  })
 }
 
 export async function POST(req) {
