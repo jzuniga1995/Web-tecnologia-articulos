@@ -9,24 +9,20 @@ import Contacto from './componentes/Contacto'
 export default function HomeEs() {
   const [articulos, setArticulos] = useState([])
 
-  useEffect(() => {
-    const cargarArticulos = async () => {
-      try {
-        const res = await fetch('/api/articulos')
-        const data = await res.json()
-        // Ordena por fecha descendente y toma solo los 6 primeros
-        const recientes = data
-          .filter(a => a.idioma === 'es')
-          .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-          .slice(0, 6)
-        setArticulos(recientes)
-      } catch (err) {
-        console.error('Error al cargar artículos:', err)
-      }
+useEffect(() => {
+  const cargarArticulos = async () => {
+    try {
+      const res = await fetch('/api/articulos?pagina=1&limite=6')
+      const data = await res.json()
+      setArticulos(data.articulos)
+    } catch (err) {
+      console.error('Error al cargar artículos:', err)
     }
+  }
 
-    cargarArticulos()
-  }, [])
+  cargarArticulos()
+}, [])
+
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-black via-zinc-900 to-black text-white px-6 md:px-12 py-16">
