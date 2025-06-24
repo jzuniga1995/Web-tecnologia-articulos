@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { useSearchParams } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 
 // Cargar MDEditor dinámicamente (solo en cliente)
@@ -20,12 +19,15 @@ export default function AdminPage() {
   const [cargando, setCargando] = useState(false)
   const [token, setToken] = useState('')
 
-  const searchParams = useSearchParams()
 
-  useEffect(() => {
-    const t = searchParams.get('token')
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const url = new URL(window.location.href)
+    const t = url.searchParams.get('token')
     if (t) setToken(t)
-  }, [searchParams])
+  }
+}, [])
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
