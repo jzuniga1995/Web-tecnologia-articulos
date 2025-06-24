@@ -38,7 +38,7 @@ export default function Contacto() {
           href="mailto:contacto@neurobity.com"
           className="hover:underline"
         >
-          contacto@neurobity.com
+          webmasterpro25@gmail.com
         </a>
       </motion.p>
     </section>

@@ -82,12 +82,7 @@ export default function Footer() {
         <Link href={isSpanish ? '/es/articulos' : '/en/articles'} className="hover:text-cyan-400">
           {isSpanish ? 'Artículos' : 'Articles'}
         </Link>
-        <a href="#sobrenosotros" className="hover:text-cyan-400">
-          {isSpanish ? 'Sobre Nosotros' : 'About Us'}
-        </a>
-        <a href="#contacto" className="hover:text-cyan-400">
-          {isSpanish ? 'Contacto' : 'Contact'}
-        </a>
+  
         <Link href={isSpanish ? '/es/privacidad' : '/en/privacy'} className="hover:text-cyan-400">
           {isSpanish ? 'Privacidad' : 'Privacy'}
         </Link>

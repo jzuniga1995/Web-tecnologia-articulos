@@ -34,7 +34,7 @@ export function middleware(request) {
 
     // Si es POST, requerimos token por Header
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
-    const secret = process.env.ADMIN_SECRET // 🔒 ya no usás NEXT_PUBLIC
+    const secret = process.env.ADMIN_SECRET 
 
     if (token === secret) {
       return NextResponse.next()
@@ -46,7 +46,7 @@ export function middleware(request) {
   // ✅ Proteger ruta /admin con token por query param
   if (pathname.startsWith('/admin')) {
     const token = searchParams.get('token')
-    const secret = process.env.ADMIN_SECRET // 🔒 ya no usás NEXT_PUBLIC
+    const secret = process.env.ADMIN_SECRET 
 
     if (token === secret) {
       return NextResponse.next()
