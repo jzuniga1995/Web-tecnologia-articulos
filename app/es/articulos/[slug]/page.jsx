@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import ArticulosRecomendados from '@/app/componentes/ArticulosRecomendados'
+import ArticulosRecomendados from '@/app/components/ArticulosRecomendados'
 
 export async function generateMetadata({ params }) {
   const { slug } = params
@@ -108,8 +108,10 @@ const ArticuloPage = async ({ params: { slug } }) => {
         >
           {articulo.contenido}
         </ReactMarkdown>
-        <ArticulosRecomendados />
+      
       </div>
+
+              <ArticulosRecomendados />
     </article>
   )
 }
