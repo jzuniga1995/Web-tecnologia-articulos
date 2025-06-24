@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-export default function ArticulosRecomendados() {
+export default function ArticulosRecomendados({ slugActual }) {
   const [articulos, setArticulos] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -13,12 +13,14 @@ export default function ArticulosRecomendados() {
       setLoading(true)
       const res = await fetch('/api/articulos?pagina=1&limite=6')
       const data = await res.json()
-      setArticulos(data.articulos)
+
+      const filtrados = data.articulos.filter((a) => a.slug !== slugActual)
+      setArticulos(filtrados)
       setLoading(false)
     }
 
     fetchArticulos()
-  }, [])
+  }, [slugActual])
 
   return (
     <section className="mt-20">
