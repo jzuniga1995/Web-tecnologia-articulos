@@ -9,8 +9,8 @@ const validarToken = (req) => {
   return token === process.env.ADMIN_SECRET
 }
 
-export async function GET(req, { params }) {
-  const id = Number(params.id)
+export async function GET(req, context) {
+  const id = Number(context.params.id)
   if (!id || isNaN(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
   }
@@ -23,12 +23,12 @@ export async function GET(req, { params }) {
   return NextResponse.json(resultado[0])
 }
 
-export async function PATCH(req, { params }) {
+export async function PATCH(req, context) {
   if (!validarToken(req)) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
 
-  const id = Number(params.id)
+  const id = Number(context.params.id)
   if (!id || isNaN(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
   }
