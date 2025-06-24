@@ -1,6 +1,6 @@
 import { db } from '@/lib/db'
 import { articulos } from '@/lib/schema'
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 const validarToken = (req) => {
