@@ -1,7 +1,11 @@
 'use client'
 
-import EditarArticulo from '@/app/components/EditarArticulo'
+import dynamic from 'next/dynamic'
+
+const EditarArticuloPage = dynamic(() => import('@/app/components/EditarArticulo'), {
+  ssr: false, // 👈 esto lo forza al cliente
+})
 
 export default function Page() {
-  return <EditarArticulo />
+  return <EditarArticuloPage />
 }
