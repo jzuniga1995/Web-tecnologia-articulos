@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
 
-// Editor dinámico solo en cliente
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
 export default function EditarArticuloPage() {
@@ -13,7 +12,6 @@ export default function EditarArticuloPage() {
   const [mensaje, setMensaje] = useState(null)
   const [token, setToken] = useState('')
 
-  // ✅ Usar window.location para evitar errores de prerender
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const url = new URL(window.location.href)
@@ -24,21 +22,27 @@ export default function EditarArticuloPage() {
 
   const buscarArticulo = async () => {
     setMensaje(null)
+
+    if (!id) {
+      setMensaje('❌ Debes ingresar un ID válido')
+      return
+    }
+
     try {
-      const res = await fetch(`/api/articulos`, {
+      const res = await fetch(`/api/articulos/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
-      const data = await res.json()
-      const encontrado = data.find((a) => a.id === Number(id))
-      if (encontrado) {
-        setArticulo(encontrado)
-      } else {
-        setArticulo(null)
-        setMensaje('❌ No se encontró el artículo')
+
+      if (!res.ok) {
+        throw new Error('No encontrado')
       }
+
+      const encontrado = await res.json()
+      setArticulo(encontrado)
     } catch (err) {
+      setArticulo(null)
       setMensaje('❌ Error al buscar el artículo')
     }
   }
@@ -59,7 +63,7 @@ export default function EditarArticuloPage() {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ ...resto, id: Number(id) }),
       })
