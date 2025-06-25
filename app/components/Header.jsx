@@ -14,8 +14,9 @@ export default function Header() {
   const links = [
     { href: isSpanish ? '/es' : '/en', label: isSpanish ? 'Inicio' : 'Home' },
     { href: isSpanish ? '/es/articulos' : '/en/articles', label: isSpanish ? 'Artículos' : 'Articles' },
-    { href: '#sobrenosotros', label: isSpanish ? 'Sobre Nosotros' : 'About Us' },
-    { href: '#contacto', label: isSpanish ? 'Contacto' : 'Contact' },
+{ href: isSpanish ? '/es#sobrenosotros' : '/en#aboutus', label: isSpanish ? 'Sobre Nosotros' : 'About Us' },
+{ href: isSpanish ? '/es#contacto' : '/en#contact', label: isSpanish ? 'Contacto' : 'Contact' },
+
   ];
 
   return (
