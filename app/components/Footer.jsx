@@ -1,5 +1,4 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import {
@@ -17,9 +16,6 @@ import {
 } from 'react-icons/si';
 
 export default function Footer() {
-  const pathname = usePathname();
-  const isSpanish = pathname.startsWith('/es');
-
   return (
     <motion.footer
       initial={{ opacity: 0, y: 20 }}
@@ -40,9 +36,7 @@ export default function Footer() {
           Neurobity
         </h2>
         <p className="text-sm text-zinc-400">
-          {isSpanish
-            ? 'Tecnología, inteligencia artificial y conocimiento para todos.'
-            : 'Technology, artificial intelligence and knowledge for everyone.'}
+          Tecnología, inteligencia artificial y conocimiento para todos.
         </p>
       </div>
 
@@ -76,25 +70,23 @@ export default function Footer() {
 
       {/* Navegación */}
       <div className="flex justify-center gap-6 text-sm mb-6 flex-wrap text-zinc-400">
-        <Link href={isSpanish ? '/es' : '/en'} className="hover:text-cyan-400">
-          {isSpanish ? 'Inicio' : 'Home'}
+        <Link href="/es" className="hover:text-cyan-400">
+          Inicio
         </Link>
-        <Link href={isSpanish ? '/es/articulos' : '/en/articles'} className="hover:text-cyan-400">
-          {isSpanish ? 'Artículos' : 'Articles'}
+        <Link href="/es/articulos" className="hover:text-cyan-400">
+          Artículos
         </Link>
-  
-        <Link href={isSpanish ? '/es/privacidad' : '/en/privacy'} className="hover:text-cyan-400">
-          {isSpanish ? 'Privacidad' : 'Privacy'}
+        <Link href="/es/privacidad" className="hover:text-cyan-400">
+          Privacidad
         </Link>
-        <Link href={isSpanish ? '/es/terminos' : '/en/terms'} className="hover:text-cyan-400">
-          {isSpanish ? 'Términos' : 'Terms'}
+        <Link href="/es/terminos" className="hover:text-cyan-400">
+          Términos
         </Link>
       </div>
 
       {/* Copyright */}
       <p className="text-xs text-zinc-500">
-        © {new Date().getFullYear()} <span className="text-white font-semibold">Neurobity</span> —{' '}
-        {isSpanish ? 'Todos los derechos reservados.' : 'All rights reserved.'}
+        © {new Date().getFullYear()} <span className="text-white font-semibold">Neurobity</span> — Todos los derechos reservados.
       </p>
     </motion.footer>
   );

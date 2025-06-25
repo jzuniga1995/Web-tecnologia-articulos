@@ -15,18 +15,22 @@ export function middleware(request) {
     pathname.endsWith('.webp') ||
     pathname.endsWith('.xml')
 
+  // ✅ Redirigir cualquier intento de acceder a /en
+  if (pathname.startsWith('/en')) {
+    return NextResponse.redirect(new URL('/es', request.url))
+  }
+
   // ✅ Permitir rutas públicas sin protección
   if (
     isStatic ||
     pathname === '/sitemap.xml' ||
     pathname === '/robots.txt' ||
-    pathname.startsWith('/es') ||
-    pathname.startsWith('/en')
+    pathname.startsWith('/es')
   ) {
     return NextResponse.next()
   }
 
-  // ✅ Permitir /api/articulos solo si es GET
+  // ✅ Permitir /api/articulos solo si es GET o con token válido
   if (pathname === '/api/articulos') {
     if (method === 'GET') return NextResponse.next()
 
@@ -38,7 +42,7 @@ export function middleware(request) {
     return new NextResponse('No autorizado para escribir artículos', { status: 401 })
   }
 
-  // ✅ Permitir /api/articulos/:id si es GET
+  // ✅ Permitir /api/articulos/:id si es GET o con token válido
   if (pathname.startsWith('/api/articulos/')) {
     if (method === 'GET') return NextResponse.next()
 
@@ -60,10 +64,6 @@ export function middleware(request) {
     return new NextResponse('No autorizado para entrar a admin', { status: 401 })
   }
 
-  // 🌐 Redirección de idioma por defecto
-  const langHeader = request.headers.get('accept-language') || ''
-  const lang = langHeader.slice(0, 2)
-  const targetLang = lang === 'en' ? 'en' : 'es'
-
-  return NextResponse.redirect(new URL(`/${targetLang}`, request.url))
+  // 🌐 Redirección de idioma por defecto (ahora siempre a /es)
+  return NextResponse.redirect(new URL('/es', request.url))
 }

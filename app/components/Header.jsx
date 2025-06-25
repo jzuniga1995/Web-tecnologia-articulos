@@ -1,22 +1,18 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Header() {
-  const pathname = usePathname();
-  const isSpanish = pathname.startsWith('/es');
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: isSpanish ? '/es' : '/en', label: isSpanish ? 'Inicio' : 'Home' },
-    { href: isSpanish ? '/es/articulos' : '/en/articles', label: isSpanish ? 'Artículos' : 'Articles' },
-{ href: isSpanish ? '/es#sobrenosotros' : '/en#aboutus', label: isSpanish ? 'Sobre Nosotros' : 'About Us' },
-{ href: isSpanish ? '/es#contacto' : '/en#contact', label: isSpanish ? 'Contacto' : 'Contact' },
-
+    { href: '/es', label: 'Inicio' },
+    { href: '/es/articulos', label: 'Artículos' },
+    { href: '/es#sobrenosotros', label: 'Sobre Nosotros' },
+    { href: '/es#contacto', label: 'Contacto' },
   ];
 
   return (
@@ -34,7 +30,7 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link href={isSpanish ? '/es' : '/en'} className="flex items-center gap-3">
+        <Link href="/es" className="flex items-center gap-3">
           <Image
             src="/logo.png"
             alt="Neurobity Logo"
