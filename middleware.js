@@ -21,14 +21,16 @@ export function middleware(request) {
   }
 
   // ✅ Permitir rutas públicas sin protección
-  if (
-    isStatic ||
-    pathname === '/sitemap.xml' ||
-    pathname === '/robots.txt' ||
-    pathname.startsWith('/es')
-  ) {
-    return NextResponse.next()
-  }
+if (
+  isStatic ||
+  pathname === '/sitemap.xml' ||
+  pathname === '/robots.txt' ||
+  pathname.startsWith('/es') ||
+  pathname.startsWith('/yandex_') // 🛡️ Permitimos el archivo de verificación de Yandex
+) {
+  return NextResponse.next()
+}s
+
 
   // ✅ Permitir /api/articulos solo si es GET o con token válido
   if (pathname === '/api/articulos') {
