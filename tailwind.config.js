@@ -1,4 +1,4 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -55,10 +55,31 @@ module.exports = {
               borderRadius: theme('borderRadius.sm'),
               color: theme('colors.cyan.300'),
             },
+            // 🧩 Estilos para tablas
+            table: {
+              width: '100%',
+              tableLayout: 'auto',
+              textAlign: 'left',
+              marginTop: theme('spacing.6'),
+              marginBottom: theme('spacing.6'),
+              borderCollapse: 'collapse',
+            },
+            thead: {
+              borderBottom: `2px solid ${theme('colors.zinc.600')}`,
+              color: theme('colors.zinc.100'),
+            },
+            th: {
+              padding: theme('spacing.2'),
+              fontWeight: '600',
+            },
+            td: {
+              padding: theme('spacing.2'),
+              borderBottom: `1px solid ${theme('colors.zinc.800')}`,
+            },
           },
         },
       }),
     },
   },
   plugins: [require('@tailwindcss/typography')],
-}
+};
