@@ -89,25 +89,37 @@ const ArticuloPage = async ({ params: { slug } }) => {
 
       {/* Contenido renderizado como Markdown con estilos */}
       <div className="prose prose-invert max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            h2: ({ node, ...props }) => (
-              <h2 className="mt-8 mb-3 text-cyan-400 text-2xl font-bold" {...props} />
-            ),
-            p: ({ node, ...props }) => (
-              <p className="leading-relaxed mb-4" {...props} />
-            ),
-            ul: ({ node, ...props }) => (
-              <ul className="list-disc list-inside mb-4" {...props} />
-            ),
-            ol: ({ node, ...props }) => (
-              <ol className="list-decimal list-inside mb-4" {...props} />
-            ),
-          }}
-        >
-          {articulo.contenido}
-        </ReactMarkdown>
+<ReactMarkdown
+  remarkPlugins={[remarkGfm]}
+  components={{
+    h2: ({ node, ...props }) => (
+      <h2 className="mt-8 mb-3 text-cyan-400 text-2xl font-bold" {...props} />
+    ),
+    p: ({ node, ...props }) => (
+      <p className="leading-relaxed mb-4" {...props} />
+    ),
+    ul: ({ node, ...props }) => (
+      <ul className="list-disc list-inside mb-4" {...props} />
+    ),
+    ol: ({ node, ...props }) => (
+      <ol className="list-decimal list-inside mb-4" {...props} />
+    ),
+    a: ({ node, ...props }) => {
+      const isExternal = props.href?.startsWith('http')
+      return (
+        <a
+          {...props}
+          className="text-blue-400 underline hover:text-blue-300"
+          rel={isExternal ? 'nofollow noopener noreferrer' : undefined}
+          target={isExternal ? '_blank' : undefined}
+        />
+      )
+    },
+  }}
+>
+  {articulo.contenido}
+</ReactMarkdown>
+
       
       </div>
 
