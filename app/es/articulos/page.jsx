@@ -5,9 +5,11 @@ export const metadata = {
   description: 'Explorá los últimos artículos sobre inteligencia artificial, tecnología y productividad.',
   alternates: {
     canonical: 'https://neurobity.com/es/articulos',
+    languages: {
+      es: 'https://neurobity.com/es/articulos',
+    },
   },
 }
-
 
 export default function Page() {
   return <ListaArticulos />

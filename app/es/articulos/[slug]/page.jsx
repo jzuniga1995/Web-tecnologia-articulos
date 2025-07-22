@@ -24,31 +24,37 @@ export async function generateMetadata({ params }) {
     .replace(/<[^>]+>/g, '')
     .slice(0, 160)
 
-  return {
+ return {
+  title: articulo.titulo,
+  description: descripcion,
+  alternates: {
+    canonical: `https://neurobity.com/es/articulos/${slug}`,
+    languages: {
+      es: `https://neurobity.com/es/articulos/${slug}`,
+    },
+  },
+  openGraph: {
     title: articulo.titulo,
     description: descripcion,
-    alternates: {
-      canonical: `https://neurobity.com/es/articulos/${slug}`,
-    },
-    openGraph: {
-      title: articulo.titulo,
-      description: descripcion,
-      type: 'article',
-      url: `https://neurobity.com/es/articulos/${slug}`,
-      images: [
-        {
-          url: `https://neurobity.com/articulos/${articulo.imagen}`,
-          alt: articulo.titulo,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: articulo.titulo,
-      description: descripcion,
-      images: [`https://neurobity.com/articulos/${articulo.imagen}`],
-    },
-  }
+    type: 'article',
+    url: `https://neurobity.com/es/articulos/${slug}`,
+    images: [
+      {
+        url: `https://neurobity.com/es/articulos/${articulo.imagen}`,
+        alt: articulo.titulo,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: articulo.titulo,
+    description: descripcion,
+    images: [`https://neurobity.com/es/articulos/${articulo.imagen}`],
+  },
+}
+
+
+
 }
 
 const ArticuloPage = async ({ params: { slug } }) => {

@@ -14,7 +14,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: 'Neurobity',
   description: 'Noticias y análisis sobre tecnología, IA y productividad.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (

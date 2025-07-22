@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 
 export function middleware(request) {
-  const { pathname, searchParams } = request.nextUrl
+  const url = request.nextUrl
+  const { pathname, searchParams } = url
   const method = request.method
 
   const isStatic =
@@ -14,11 +15,6 @@ export function middleware(request) {
     pathname.endsWith('.svg') ||
     pathname.endsWith('.webp') ||
     pathname.endsWith('.xml')
-
-  // ✅ Redirigir cualquier intento de acceder a /en
-  if (pathname.startsWith('/en')) {
-    return NextResponse.redirect(new URL('/es', request.url))
-  }
 
   // ✅ Permitir rutas públicas sin protección
   if (
@@ -65,6 +61,11 @@ export function middleware(request) {
     return new NextResponse('No autorizado para entrar a admin', { status: 401 })
   }
 
-  // 🌐 Redirección de idioma por defecto (ahora siempre a /es)
-  return NextResponse.redirect(new URL('/es', request.url))
+  // 🌐 Redirección por defecto: si no empieza con /es, redirige a la misma ruta bajo /es
+  if (!pathname.startsWith('/es')) {
+    url.pathname = `/es${pathname}`
+    return NextResponse.redirect(url, 301)
+  }
+
+  return NextResponse.next()
 }
