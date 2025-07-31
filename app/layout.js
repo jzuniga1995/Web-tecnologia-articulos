@@ -15,7 +15,7 @@ export const metadata = {
   title: 'Neurobity',
   description: 'Noticias y análisis sobre tecnología, IA y productividad.',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/ico.png',
   },
 };
 
@@ -28,4 +28,4 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-}
+}a
