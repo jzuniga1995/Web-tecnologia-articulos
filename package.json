@@ -7,12 +7,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "migrate:images": "node scripts/migrate-images-to-cloudinary.js",
     "lint": "next lint"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "@uiw/react-markdown-preview": "^5.1.4",
     "@uiw/react-md-editor": "^4.0.7",
+    "cloudinary": "^2.8.0",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.44.2",
     "framer-motion": "^12.17.3",

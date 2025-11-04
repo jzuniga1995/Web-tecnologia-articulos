@@ -11,16 +11,36 @@ export default function ArticulosRecomendados({ slugActual }) {
   useEffect(() => {
     const fetchArticulos = async () => {
       setLoading(true)
-      const res = await fetch('/api/articulos?pagina=1&limite=6')
-      const data = await res.json()
+      try {
+        const res = await fetch('/api/articulos?pagina=1&limite=6')
+        
+        if (!res.ok) {
+          throw new Error('Error al cargar artículos')
+        }
 
-      const filtrados = data.articulos.filter((a) => a.slug !== slugActual)
-      setArticulos(filtrados)
-      setLoading(false)
+        const data = await res.json()
+        const filtrados = data.articulos.filter((a) => a.slug !== slugActual)
+        setArticulos(filtrados)
+      } catch (error) {
+        console.error('Error cargando artículos recomendados:', error)
+        setArticulos([])
+      } finally {
+        setLoading(false)
+      }
     }
 
     fetchArticulos()
   }, [slugActual])
+
+  // 🆕 Función helper para manejar URLs de imagen (Cloudinary o legacy)
+  const getImageUrl = (imagen) => {
+    // Si ya es una URL completa de Cloudinary, usarla directamente
+    if (imagen.startsWith('https://res.cloudinary.com/')) {
+      return imagen
+    }
+    // Si es formato legacy (solo nombre de archivo), construir ruta local
+    return `/articulos/${imagen}`
+  }
 
   return (
     <section className="mt-20">
@@ -28,24 +48,30 @@ export default function ArticulosRecomendados({ slugActual }) {
 
       {loading ? (
         <p className="text-zinc-400 text-sm">Cargando recomendaciones...</p>
+      ) : articulos.length === 0 ? (
+        <p className="text-zinc-400 text-sm">No hay artículos recomendados disponibles.</p>
       ) : (
         <div className="grid md:grid-cols-3 gap-6">
           {articulos.map((art) => (
             <Link
               key={art.id}
               href={`/es/articulos/${art.slug}`}
-              className="border rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-zinc-800"
+              className="border rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-zinc-800 hover:scale-105 duration-300"
             >
-              <div className="aspect-video relative">
+              <div className="aspect-video relative bg-zinc-900">
                 <Image
-                  src={`/articulos/${art.imagen}`}
+                  src={getImageUrl(art.imagen)}
                   alt={art.titulo}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                  priority={false}
                 />
               </div>
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-white">{art.titulo}</h3>
+                <h3 className="text-lg font-semibold text-white line-clamp-2">
+                  {art.titulo}
+                </h3>
                 <p className="text-sm text-zinc-400 mt-2">
                   {new Date(art.fecha).toLocaleDateString('es-ES', {
                     year: 'numeric',

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import SobreNosotros from './componentes/SobreNosotros'
@@ -19,8 +20,15 @@ function limpiarMarkdown(texto) {
     .trim()
 }
 
-
-
+// 🆕 Función helper para manejar URLs de imagen (Cloudinary o legacy)
+function getImageUrl(imagen) {
+  // Si ya es una URL completa de Cloudinary, usarla directamente
+  if (imagen.startsWith('https://res.cloudinary.com/')) {
+    return imagen
+  }
+  // Si es formato legacy (solo nombre de archivo), construir ruta local
+  return `/articulos/${imagen}`
+}
 
 export default function HomeEs() {
   const [articulos, setArticulos] = useState([])
@@ -31,10 +39,16 @@ export default function HomeEs() {
       try {
         setLoading(true)
         const res = await fetch('/api/articulos?pagina=1&limite=6')
+        
+        if (!res.ok) {
+          throw new Error('Error al cargar artículos')
+        }
+
         const data = await res.json()
         setArticulos(data.articulos)
       } catch (err) {
         console.error('Error al cargar artículos:', err)
+        setArticulos([])
       } finally {
         setLoading(false)
       }
@@ -75,10 +89,12 @@ export default function HomeEs() {
         <section className="max-w-7xl mx-auto grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {loading ? (
             <p className="text-zinc-400 text-center col-span-full">Cargando artículos...</p>
+          ) : articulos.length === 0 ? (
+            <p className="text-zinc-400 text-center col-span-full">No hay artículos disponibles.</p>
           ) : (
-            articulos.map(({ titulo, slug, contenido, imagen, fecha }, i) => (
+            articulos.map(({ id, titulo, slug, contenido, imagen, fecha }, i) => (
               <motion.article
-                key={`card-${slug}`}
+                key={id}
                 aria-label={titulo}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -86,11 +102,13 @@ export default function HomeEs() {
                 className="group relative block overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-transparent border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_10px_50px_rgba(0,255,255,0.2)] transition-transform hover:-translate-y-1 duration-300 backdrop-blur-md"
               >
                 <Link href={`/es/articulos/${slug}`}>
-                  <div className="overflow-hidden relative aspect-[16/9]">
-                    <img
-                      src={`/articulos/${imagen}`}
+                  <div className="overflow-hidden relative aspect-[16/9] bg-zinc-900">
+                    <Image
+                      src={getImageUrl(imagen)}
                       alt={titulo}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
                   </div>
@@ -99,9 +117,9 @@ export default function HomeEs() {
                     <h2 className="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors duration-300">
                       {titulo}
                     </h2>
-                <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
-  {limpiarMarkdown(contenido).slice(0, 120)}...
-</p>
+                    <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
+                      {limpiarMarkdown(contenido).slice(0, 120)}...
+                    </p>
 
                     <span className="inline-block mt-4 text-sm font-medium text-cyan-500 group-hover:underline transition-all duration-300">
                       Leer más →

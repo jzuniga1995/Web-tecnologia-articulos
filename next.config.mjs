@@ -6,6 +6,16 @@ const nextConfig = {
   env: {
     ADMIN_SECRET: process.env.ADMIN_SECRET, 
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 }
 
 export default nextConfig
